@@ -24,11 +24,16 @@ body {
 }
 
 .chartTitle,
-.yTitle{
+.yTitle,
+.xTitle {
   fill: rgb(20, 0, 110);
-  font: bold 40px sans-serif;
+  font: bold 30px sans-serif;
 }
-.yTitle{
+.titleDetail {
+  font: lighter 16px sans-serif;
+}
+.yTitle,
+.xTitle {
   font-size: 20px;
 }
 

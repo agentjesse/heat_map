@@ -1,7 +1,7 @@
 //use d3 v3 ordinal scale, rangeRoundBands(), rangeBand(), and axis to make vertical bar chart.
-const margin = {top:50, right:30, bottom:70, left: 60};
+const margin = {top:90, right:30, bottom:70, left: 65};
 const width  = 950 - margin.left - margin.right, 
-			height = 600 - margin.top - margin.bottom;
+			height = 640 - margin.top - margin.bottom;
 //popup
 const tooltip = d3.select('body').append('div')
 										.attr('class','toolTip')//set important styling
@@ -14,29 +14,52 @@ const y = d3.scale.ordinal()
 						.rangeRoundBands([0,height],0);
 //axes'
 const xAxis = d3.svg.axis()//make the axis object using this line and set the appropriate scale and orientation
-									.scale(x)
-									.orient('bottom')
-									.ticks(d3.time.year, 20)//a tick every 20 years
-									.tickFormat(d3.time.format.utc('%Y'));
+	.scale(x)
+	.orient('bottom')
+	.ticks(d3.time.year, 20)//a tick every 20 years
+	.tickFormat(d3.time.format.utc('%Y'));
 const yAxis = d3.svg.axis()
-									.scale(y)
-									.orient('left');
+	.scale(y)
+	.orient('left');
 // set dims, make bkg, titles of graph
+//bkg
 d3.select('.svgchart')
-								.attr('width',width + margin.left + margin.right)
-								.attr('height',height + margin.top + margin.bottom)
-							.append('rect')
-								.attr('class','chartBkg')
-								.attr('width',width + margin.left + margin.right)
-								.attr('height',height + margin.top + margin.bottom)
-								.attr('rx','15')
-								.attr('ry','15');
-// d3.select('.svgchart').append('text')
-// 								.attr('class', 'yTitle')
-// 								.text('Rank')
-// 								.attr('x', 85)
-// 								.attr('y', 330)
-// 								.attr('transform', 'rotate(-90 85,330)');//rotation coords same as x and y position
+		.attr('width',width + margin.left + margin.right)
+		.attr('height',height + margin.top + margin.bottom)
+	.append('rect')
+		.attr('class','chartBkg')
+		.attr('width',width + margin.left + margin.right)
+		.attr('height',height + margin.top + margin.bottom)
+		.attr('rx','15')
+		.attr('ry','15');
+//main title and details
+d3.select('.svgchart').append('text')
+		.attr('class', 'chartTitle')
+		.text('Monthly Global Land-Surface Temperatures: 1753 - 2015')
+		.attr('x', 90)
+		.attr('y', 37);
+d3.select('.svgchart').append('text')
+		.attr('class', 'titleDetail')
+		.text(`Temperature anomalies are relative to the Jan 1951 - Dec 1980 average`)
+		.attr('x', 230)
+		.attr('y', 60);
+d3.select('.svgchart').append('text')
+		.attr('class', 'titleDetail')
+		.text(`Estimated Jan 1951 - Dec 1980 absolute temperature ℃: 8.66 +/- 0.07`)
+		.attr('x', 235)
+		.attr('y', 77);
+//axis titles
+d3.select('.svgchart').append('text')
+								.attr('class', 'yTitle')
+								.text('Month')
+								.attr('x', 25)
+								.attr('y', 350)
+								.attr('transform', 'rotate(-90 25,350)');//rotation coords same as x and y position
+d3.select('.svgchart').append('text')
+								.attr('class', 'xTitle')
+								.text('Year')
+								.attr('x', 470)
+								.attr('y', 620);
 //get the svg for the chart, set dimensions according to margins, append a group inside using the margin info									
 const chart = d3.select('.svgchart')
 							.append('g')//make a group within the svg to make use of margins from top left origin point of the group
@@ -74,7 +97,9 @@ d3.json('/global-temperature.json', function(error,data){
       .data(data.monthlyVariance)//join the data. update selection is returned, it has enter selection hanging off it
 		.enter().append('rect')//instantiate the 'g' elements for each item in the selection
 			.attr('class', 'dataRect')
-			.style('fill', 'red' )
+			.style('fill', function(d,i){
+				return 'red';
+			})
 			//get the x position from the x scale by passing it a value fitting its domain.
 			.attr('x', d => x( new Date(d.year, 0) ) )
 			.attr('y', d => y( d.month ) )
@@ -92,7 +117,7 @@ d3.json('/global-temperature.json', function(error,data){
 			// tooltip.html( `${d.variance}` )
 				//DON'T FORGET TO OFFSET THE POPUP OR IT WILL INTERFERE, causing multiple event firing
 				.style('left', d3.event.pageX - 40 + 'px')//d3.event must be used to access the usual event object
-				.style('top', d3.event.pageY - 95 + 'px');
+				.style('top', d3.event.pageY - 65 + 'px');
 			tooltip.transition()//smooth transition, from d3: https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#transition
 				.duration(700)//ms
 				// .delay(300)//ms
