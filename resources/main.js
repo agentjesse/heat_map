@@ -9,9 +9,13 @@ const tooltip = d3.select('body').append('div')
 										.style('opacity','0');//start off hidden	
 //set scale ranges before receiving data so axis creation can be made ahead of retrieval
 const x = d3.time.scale()//this is a version of a linear scale. it's not ordinal
-							.range([0,width]);
+	.range([0,width]);
 const y = d3.scale.ordinal()
-						.rangeRoundBands([0,height],0);
+	.rangeRoundBands([0,height],0);
+const colorScale = d3.scale.quantile()//from continuous domain to one of a discrete data set
+	// .range( ['#7eaad7','#6fcded','#64d4c7','#bfe67f','#f3f982','#fee484','#ffc98e','#ffb98e','#ff888f','#ff97c7','#de9ecb'] );
+	.range( ['#0473BA','#00A6DC','#00BEA9','#9CD930','#F2F628','#FFD024','#FFA239','#FF853A','#FF213E','#FB4EA3','#C858A9'] );
+	// .range( ['#AB0000','#FF0000','#FF822B','#FFD830','#FBFE00','#FFF19B','#B0FF40','#00FFE8','#00C7F1','#4E00FF','#2800AF'] );
 //axes'
 const xAxis = d3.svg.axis()//make the axis object using this line and set the appropriate scale and orientation
 	.scale(x)
@@ -79,6 +83,8 @@ d3.json('/global-temperature.json', function(error,data){
 	// console.log( x.domain() );
 	y.domain( [1,2,3,4,5,6,7,8,9,10,11,12] );
 	// console.log( y.domain() );
+	colorScale.domain( [ d3.min(data.monthlyVariance, item => item.variance ), d3.max(data.monthlyVariance, item => item.variance ) ] );
+	// console.log( colorScale.domain() );
 	//finish and append axes'
 	chart.append('g')
 			.attr('class', 'x axis')
@@ -97,9 +103,7 @@ d3.json('/global-temperature.json', function(error,data){
       .data(data.monthlyVariance)//join the data. update selection is returned, it has enter selection hanging off it
 		.enter().append('rect')//instantiate the 'g' elements for each item in the selection
 			.attr('class', 'dataRect')
-			.style('fill', function(d,i){
-				return 'red';
-			})
+			.style('fill', d => colorScale(d.variance) )
 			//get the x position from the x scale by passing it a value fitting its domain.
 			.attr('x', d => x( new Date(d.year, 0) ) )
 			.attr('y', d => y( d.month ) )
