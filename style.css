@@ -13,6 +13,8 @@ body {
 .toolTip{
   max-width: 250px;
   font-family: Helvetica, sans-serif;
+  font-weight: lighter;
+  font-size: 1rem;
   background-color: rgb(232, 236, 255);
   border-radius: 6px;
   padding: 6px 11px;
@@ -27,36 +29,32 @@ body {
 .yTitle,
 .xTitle {
   fill: rgb(20, 0, 110);
-  font: bold 30px sans-serif;
+  font: bold 1.75rem sans-serif;
 }
 .titleDetail {
-  font: lighter 16px sans-serif;
+  font: lighter 1rem sans-serif;
+}
+.legendDetail {
+  font: lighter 1rem sans-serif;
 }
 .yTitle,
 .xTitle {
-  font-size: 20px;
-}
-
-.dataRect {
-  /* stroke:rgb(0, 0, 0); */
-  /* stroke-width: 1px; */
+  font-size: 1.25rem;
 }
 
 .axis text {
   fill: rgb(0, 5, 70);
-  font: 12px sans-serif;
+  font: 0.75rem sans-serif;
 }
 .axis path,
 .axis line {
   fill: none;
   stroke: rgb(0, 5, 70);
-  stroke-width: 2px;
+  stroke-width: 2;
   shape-rendering: crispEdges;
 }
-.x.axis path {
-  /* display: none; */
-}
-.y.axis path {
-  /* stroke-width: 2px; */
-}
 
+.legend text{
+  /* fill:red; */
+  
+}
