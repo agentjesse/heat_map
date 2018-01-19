@@ -71,7 +71,7 @@ const chart = svg.append('g')//make a group within the svg to make use of margin
 		.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 //retrieve the data from somewhere, make error checks, then use it to finish setting up scales before making the graph								
-d3.json('/global-temperature.json', function(error,data){
+d3.json('/resources/global-temperature.json', function(error,data){
 	if(error)console.log(error);//super important. display error if found!!
 	// console.log('complete data:', data);
 	//format data: filter out duplicate years
