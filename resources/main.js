@@ -64,7 +64,7 @@ svg.append('text')
 		.attr('class', 'xTitle')
 		.text('Year')
 		.attr('x', 470)
-		.attr('y', 610);
+		.attr('y', 613);
 
 //get the svg for the chart, set dimensions according to margins, append a group inside using the margin info									
 const chart = svg.append('g')//make a group within the svg to make use of margins from top left origin point of the group
@@ -95,8 +95,8 @@ d3.json('/global-temperature.json', function(error,data){
 			.attr('transform', 'translate(-2,0)')//move the path in the axis? maybe change thickness
 			.call(yAxis);
 	//fine edit axis ticks
-	const newTickTexts = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-	document.querySelectorAll('.y.axis text').forEach( (node, i)=> { node.textContent = newTickTexts[i] } );
+	const monthNames = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
+	document.querySelectorAll('.y.axis text').forEach( (node, i)=> { node.textContent = monthNames[i] } );
 	//remember that at this point the chart variable is already the group you put into the svg. 
   chart.selectAll('rect')//initiate data join, in this case, the rect elements of this line don't exist yet...
       .data(data.monthlyVariance)//join the data. update selection is returned, it has enter selection hanging off it
@@ -116,16 +116,18 @@ d3.json('/global-temperature.json', function(error,data){
 				//get position of chart if toolTip will need to be statically placed
 				// const svgBoundsRect = document.querySelector('svg').getBoundingClientRect();
 				//display formatted tooltip div: year,month, actual temp, variance
-				tooltip.html( `poop` + JSON.stringify(d) )
+				tooltip.html( `<b>${d.year} - ${monthNames[d.month-1]}<br>
+				${(data.baseTemperature + d.variance).toFixed(3)}°C<br>
+				</b>variance: ${d.variance}` )
 				// tooltip.html( `${d.variance}` )
 					//DON'T FORGET TO OFFSET THE POPUP OR IT WILL INTERFERE, causing multiple event firing
-					.style('left', d3.event.pageX - 40 + 'px')//d3.event must be used to access the usual event object
-					.style('top', d3.event.pageY - 65 + 'px');
+					.style('left', d3.event.pageX - 65 + 'px')//d3.event must be used to access the usual event object
+					.style('top', d3.event.pageY - 80 + 'px');
 				tooltip.transition()//smooth transition, from d3: https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#transition
 					.duration(700)//ms
 					// .delay(300)//ms
 					.style('opacity', 1);
-				d3.select(this).style('opacity','0.3');
+				d3.select(this).style('opacity','0.1');
 			})
 			.on('mouseout', function(d,i){
 				tooltip.style('opacity', 0)//reset opacity for next transition
@@ -141,7 +143,7 @@ d3.json('/global-temperature.json', function(error,data){
 	const legendItemWidth = 34;
 	const legend = chart.append('g')
 			.attr('class','legend')
-			.attr('transform', 'translate(475,'+(height+70)+')' );
+			.attr('transform', 'translate(490,'+(height+70)+')' );
 	legend.selectAll('rect')
 			.data(colors)
 		.enter().append('rect')
@@ -155,7 +157,8 @@ d3.json('/global-temperature.json', function(error,data){
 			.text( d => d.toFixed(2) )
 			.attr('x',(d,i) => i * legendItemWidth )
 			.attr('transform', (d,i) => `rotate(-90 ${ i * legendItemWidth },0)` )
-			.attr('dy', (d,i) => 3 );
+			.attr('dy', (d,i) => 3 )
+			.attr('dx', (d,i) => 2 );
 	legend.append('text')
 		.attr('class', 'legendDetail')
 		.text(`variance from average (°C) `)
