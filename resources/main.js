@@ -71,8 +71,8 @@ const chart = svg.append('g')//make a group within the svg to make use of margin
 		.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 //retrieve the data from somewhere, make error checks, then use it to finish setting up scales before making the graph								
-// d3.json('/resources/global-temperature.json', function(error,data){
-d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json', function(error,data){
+// d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json', function(error,data){
+d3.json('/resources/global-temperature.json', function(error,data){
 	if(error)console.log(error);//super important. display error if found!!
 	// console.log('complete data:', data);
 	//format data: filter out duplicate years
@@ -140,7 +140,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
 	const legendTicks = colorScale.quantiles()//a copy is returned, no need to shallow clone with .slice(0)
 	legendTicks.unshift( colorScale.domain()[0] )
 	legendTicks.push( colorScale.domain()[1] )
-	console.log( legendTicks )//get domain values that split up continuous data
+	// console.log( legendTicks )//get domain values that split up continuous data
 	const legendItemWidth = 34;
 	const legend = chart.append('g')
 			.attr('class','legend')
