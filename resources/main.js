@@ -1,7 +1,7 @@
 //use d3 v3 ordinal scale, rangeRoundBands(), rangeBand(), and axis to make vertical bar chart.
 const margin = {top:90, right:30, bottom:90, left: 65};
 const width  = 950 - margin.left - margin.right, 
-			height = 660 - margin.top - margin.bottom;
+			height = 600 - margin.top - margin.bottom;
 //popup
 const tooltip = d3.select('body').append('div')
 										.attr('class','toolTip')//set important styling
@@ -50,8 +50,8 @@ svg.append('text')
 		.attr('y', 60);
 svg.append('text')
 		.attr('class', 'titleDetail')
-		.text(`Estimated Jan 1951 - Dec 1980 absolute temperature °C: 8.66 +/- 0.07`)
-		.attr('x', 215)
+		.text(`Estimated Jan 1951 - Dec 1980 temperature: 8.66°C +/- 0.07`)
+		.attr('x', 252)
 		.attr('y', 77);
 //axis titles
 svg.append('text')
@@ -63,8 +63,8 @@ svg.append('text')
 svg.append('text')
 		.attr('class', 'xTitle')
 		.text('Year')
-		.attr('x', 470)
-		.attr('y', 613);
+		.attr('x', 460)
+		.attr('y', 550);
 
 //get the svg for the chart, set dimensions according to margins, append a group inside using the margin info									
 const chart = svg.append('g')//make a group within the svg to make use of margins from top left origin point of the group
@@ -145,7 +145,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
 	const legendItemWidth = 34;
 	const legend = chart.append('g')
 			.attr('class','legend')
-			.attr('transform', 'translate(490,'+(height+70)+')' );
+			.attr('transform', 'translate(480,'+(height+70)+')' );
 	legend.selectAll('rect')
 			.data(colors)
 		.enter().append('rect')
